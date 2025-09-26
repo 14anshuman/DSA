@@ -1,16 +1,25 @@
 class Solution {
     public boolean stoneGame(int[] nums) {
         int n = nums.length;
-        Integer[][] memo = new Integer[n][n];
-        return scoreDiff(nums, 0, n - 1, memo) >= 0;
-    }
-     private int scoreDiff(int[] nums, int l, int r, Integer[][] memo) {
-        if (l == r) return nums[l];
-        if (memo[l][r] != null) return memo[l][r];
+        int[][] dp = new int[n][n];
 
-        int pickLeft  = nums[l] - scoreDiff(nums, l + 1, r, memo);
-        int pickRight = nums[r] - scoreDiff(nums, l, r - 1, memo);
+        // Base case: subarrays of length 1
+        for (int i = 0; i < n; i++) {
+            dp[i][i] = nums[i];
+        }
 
-        return memo[l][r] = Math.max(pickLeft, pickRight);
+        // Build for longer subarrays
+        for (int len = 2; len <= n; len++) {
+            for (int l = 0; l <= n - len; l++) {
+                int r = l + len - 1;
+
+                int pickLeft = nums[l] - dp[l + 1][r];
+                int pickRight = nums[r] - dp[l][r - 1];
+
+                dp[l][r] = Math.max(pickLeft, pickRight);
+            }
+        }
+
+        return dp[0][n - 1] >= 0;
     }
 }
