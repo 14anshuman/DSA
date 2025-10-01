@@ -1,16 +1,16 @@
 class Solution {
     public int firstUniqChar(String s) {
-        Map<Character,Integer> map=new HashMap<>();
-        for(int i=0;i<s.length();i++){
-            char ch=s.charAt(i);
-            map.put(ch,map.getOrDefault(ch,0)+1);
+        int[] frequency = new int[26]; 
+
+        for (char c : s.toCharArray()) {
+            frequency[c - 'a']++; // Map 'a' to 0, 'b' to 1, ..., 'z' to 25
         }
-        for(int i=0;i<s.length();i++){
-            char ch=s.charAt(i);
-            if(map.get(ch)==1){
-                return i;
+        for (int i = 0; i < s.length(); i++) {
+            if (frequency[s.charAt(i) - 'a'] == 1) {
+                return i; // Return the index of the first unique character
             }
         }
+        // If no unique character is found, return -1
         return -1;
     }
 }
