@@ -14,25 +14,24 @@
  * }
  */
 class Solution {
+    List<Integer> ans=new ArrayList<>();
     public int findBottomLeftValue(TreeNode root) {
-        Queue<TreeNode> queue = new LinkedList<>();
-        
-        int bottomLeft = 0;
-        queue.offer(root);
-        
-        while (!queue.isEmpty()) {
-            TreeNode node = queue.poll();
-            
-            bottomLeft = node.val;
-            
-            if (node.right != null) {
-                queue.offer(node.right);
+         Queue<TreeNode> q = new LinkedList<>();
+        if (root == null) return 0;
+        q.add(root);
+        while (!q.isEmpty()){
+            int n = q.size();
+            for (int i =0; i< n ; i++){
+                TreeNode front = q.remove();
+                if(i==0){
+                        ans.add(front.val);
+                }
+               
+                if (front.left != null) q.add(front.left);
+                if (front.right != null) q.add(front.right);
             }
-            if (node.left != null) {
-                queue.offer(node.left);
-            }
+        
         }
-        
-        return bottomLeft;
+        return ans.get(ans.size()-1);
     }
 }
