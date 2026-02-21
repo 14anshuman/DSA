@@ -1,22 +1,18 @@
 class Solution {
     public int countPrimeSetBits(int left, int right) {
-        int c=0;
-        for(int i=left;i<=right;i++){
-            int bit=Integer.bitCount(i);
-            if(isPrime(bit)){
-                c++;
+        int count = 0;
+
+        // Precomputed primes up to 32
+        boolean[] prime = new boolean[33];
+        prime[2] = prime[3] = prime[5] = prime[7] = true;
+        prime[11] = prime[13] = prime[17] = prime[19] = true;
+        prime[23] = prime[29] = prime[31] = true;
+
+        for (int i = left; i <= right; i++) {
+            if (prime[Integer.bitCount(i)]) {
+                count++;
             }
         }
-        return c;
-    }
-    public static boolean isPrime(int n) {
-        if (n <= 1) return false;
-        if (n == 2) return true;
-        if (n % 2 == 0) return false;
-
-        for (int i = 3; i * i <= n; i += 2) {
-            if (n % i == 0) return false;
-        }
-        return true;
+        return count;
     }
 }
